@@ -1,100 +1,103 @@
-# Welcome to React Router!
+# AI図解ジェネレーター
 
-A modern, production-ready template for building full-stack React applications using React Router.
+ユーザーの入力内容をもとにAIでHTMLを描画し、それを画像化させることで綺麗な図解が作れるサービスです。
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+## 📝 概要
 
-## Features
+このアプリケーションは、テキスト入力から自動的に図解を生成し、PNG画像としてエクスポートできるウェブサービスです。Claude APIを活用して、ユーザーの入力内容を解析し、美しくモダンなデザインの図解を生成します。
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+特に以下の点に注力しています：
+- テキスト要素の適切な余白設定（padding: 8px〜12px）
+- 十分な行間（line-height: 1.4〜1.6）による可読性向上
+- 段落や項目間の適切なマージン（margin: 8px〜12px）設定
+- shadcn/uiスタイルに準拠したモダンなデザイン
 
-## Getting Started
+## ✨ 機能
 
-### Installation
+- テキスト入力からAIによる図解の自動生成
+- 生成された図解のPNG画像へのエクスポート
+- モダンなUIとレスポンシブデザイン
+- 16:9のアスペクト比に最適化された図解生成
 
-Install the dependencies:
+## 🛠️ 技術スタック
+
+- **フロントエンド**: React, React Router
+- **スタイリング**: Tailwind CSS, shadcn/ui
+- **画像変換**: html-to-image
+- **AI生成**: Claude API (Anthropic)
+
+## 🚀 開発環境のセットアップ
+
+### 前提条件
+
+- Node.js 18.0.0以上
+- npm 9.0.0以上
+- Claude API キー
+
+### インストール
 
 ```bash
+# リポジトリのクローン
+git clone https://github.com/yourusername/generate-post-diagram.git
+cd generate-post-diagram
+
+# 依存関係のインストール
 npm install
+
+# 環境変数の設定
+# .envファイルを作成し、Claude API Keyを設定
+echo "CLAUDE_API_KEY=your_api_key_here" > .env
 ```
 
-### Development
-
-Start the development server with HMR:
+### 開発サーバーの起動
 
 ```bash
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+アプリケーションは http://localhost:3000 で実行されます。
 
-## Building for Production
-
-Create a production build:
+### ビルド
 
 ```bash
 npm run build
 ```
 
-## Deployment
-
-### Docker Deployment
-
-This template includes three Dockerfiles optimized for different package managers:
-
-- `Dockerfile` - for npm
-- `Dockerfile.pnpm` - for pnpm
-- `Dockerfile.bun` - for bun
-
-To build and run using Docker:
+### 本番環境での実行
 
 ```bash
-# For npm
-docker build -t my-app .
-
-# For pnpm
-docker build -f Dockerfile.pnpm -t my-app .
-
-# For bun
-docker build -f Dockerfile.bun -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
+npm run start
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
+## 📋 使い方
 
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
+1. テキスト入力欄に図解したい内容を入力します
+2. 「図解を生成」ボタンをクリックします
+3. AIが入力内容に基づいて図解を生成します
+4. 「画像としてダウンロード」ボタンをクリックして、生成された図解をPNG形式で保存できます
 
-### DIY Deployment
+## 🔍 注意点
 
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
+- 生成される図解は16:9のアスペクト比に最適化されています
+- テキスト要素は読みやすさを確保するため、適切な余白と行間を設定しています
+- 現在のバージョンでは、生成される画像のクオリティに制限があります
+- 複雑な図解の場合、生成に時間がかかることがあります
 
-Make sure to deploy the output of `npm run build`
+## 📊 今後の改善予定
 
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
+- 画像生成クオリティの向上
+- テンプレート機能の追加
+- ユーザーによるデザインカスタマイズオプションの拡充
+- 複数の図解形式（フローチャート、マインドマップなど）のサポート
 
-## Styling
+## 📄 ライセンス
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+MIT
 
----
+## 🤝 貢献
 
-Built with ❤️ using React Router.
+1. このリポジトリをフォークします
+2. 新しいブランチを作成します (`git checkout -b feature/amazing-feature`)
+3. 変更をコミットします (`git commit -m 'Add some amazing feature'`)
+4. ブランチにプッシュします (`git push origin feature/amazing-feature`)
+5. プルリクエストを作成します
