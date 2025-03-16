@@ -46,13 +46,70 @@ export function DiagramGenerator() {
     }
   };
 
+  const copyImageToClipboard = async () => {
+    if (!diagramRef.current) return;
+
+    try {
+      const dataUrl = await toPng(diagramRef.current, {
+        quality: 1.0,
+        pixelRatio: 2,
+        backgroundColor: '#ffffff',
+      });
+
+      // データURLから画像を作成
+      const img = new Image();
+      img.src = dataUrl;
+
+      // 画像が読み込まれるのを待つ
+      await new Promise((resolve) => {
+        img.onload = resolve;
+      });
+
+      // Canvasを作成して画像を描画
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx?.drawImage(img, 0, 0);
+
+      // Canvasからblobを取得してクリップボードにコピー
+      canvas.toBlob(async (blob) => {
+        if (blob) {
+          try {
+            await navigator.clipboard.write([
+              new ClipboardItem({
+                [blob.type]: blob,
+              }),
+            ]);
+            toast.success('図解画像がクリップボードにコピーされました', {
+              description: '他の場所に貼り付けることができます',
+              duration: 3000,
+            });
+          } catch (err) {
+            console.error('クリップボードへのコピーに失敗しました:', err);
+            toast.error('クリップボードへのコピーに失敗しました', {
+              description: 'ブラウザの権限設定を確認してください',
+              duration: 3000,
+            });
+          }
+        }
+      }, 'image/png');
+    } catch (error) {
+      console.error('Error copying image to clipboard:', error);
+      toast.error('画像のコピー中にエラーが発生しました', {
+        description: 'もう一度お試しください',
+        duration: 3000,
+      });
+    }
+  };
+
   return (
     <div className='container mx-auto p-6 max-w-4xl'>
       <h1 className='text-3xl font-bold mb-8 text-center'>
         AI図解ジェネレーター
       </h1>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+      <div className='flex flex-col gap-8'>
         <div className='space-y-4'>
           <Form method='post' className='space-y-4'>
             <div className='space-y-2'>
@@ -82,12 +139,11 @@ export function DiagramGenerator() {
           )}
         </div>
 
-        <div className='border rounded-lg p-4 bg-gray-50 flex-grow-0'>
+        <div className='border rounded-lg p-4 bg-gray-50'>
           {actionData?.html ? (
             <div
               ref={diagramRef}
-              className='w-full relative bg-white overflow-hidden shadow-inner rounded-md'
-              style={{ paddingBottom: '56.25%' }}
+              className='w-full relative bg-white overflow-hidden shadow-inner rounded-md aspect-video'
             >
               <div className='absolute inset-0 flex items-center justify-center'>
                 <div
@@ -97,10 +153,7 @@ export function DiagramGenerator() {
               </div>
             </div>
           ) : (
-            <div
-              className='w-full relative bg-white shadow-inner rounded-md'
-              style={{ paddingBottom: '56.25%' }}
-            >
+            <div className='w-full relative bg-white shadow-inner rounded-md aspect-video'>
               <div className='absolute inset-0 flex items-center justify-center text-gray-400'>
                 {isSubmitting ? (
                   <div className='flex flex-col items-center'>
@@ -115,9 +168,14 @@ export function DiagramGenerator() {
           )}
 
           {actionData?.html && (
-            <Button onClick={downloadImage} variant='outline' className='mt-4'>
-              画像としてダウンロード
-            </Button>
+            <div className='flex gap-2 mt-4'>
+              <Button onClick={downloadImage} variant='outline'>
+                画像としてダウンロード
+              </Button>
+              <Button onClick={copyImageToClipboard} variant='outline'>
+                クリップボードにコピー
+              </Button>
+            </div>
           )}
         </div>
       </div>
