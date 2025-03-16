@@ -40,7 +40,7 @@ export async function generateDiagramHTML(prompt: string): Promise<string> {
 
 ## レイアウトと構造
 - 厳密に16:9のアスペクト比を維持してください。これは非常に重要です
-- ルート要素のdivには style="width: 100%; height: 100%; box-sizing: border-box; display: flex; align-items: center; justify-content: center; overflow: hidden;" のスタイルを設定してください
+- ルート要素のdivには style="width: 100%; height: 100%; box-sizing: border-box; display: flex; align-items: center; justify-content: center;" のスタイルを設定してください
 - 内部の要素も16:9のアスペクト比を維持するよう、width: 100%とheight: auto、またはpadding-bottom: 56.25%などの技術を使用してください
 - 図解全体のサイズは親要素に合わせて自動調整されるようにしてください
 - 縦方向にはみ出さないよう、コンテンツ量を適切に調整してください

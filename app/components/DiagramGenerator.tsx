@@ -143,7 +143,7 @@ export function DiagramGenerator() {
           {actionData?.html ? (
             <div
               ref={diagramRef}
-              className='w-full relative bg-white overflow-hidden shadow-inner rounded-md aspect-video'
+              className='w-full relative bg-white shadow-inner rounded-md aspect-video'
             >
               <div className='absolute inset-0 flex items-center justify-center'>
                 <div
